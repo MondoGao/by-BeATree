@@ -153,7 +153,14 @@ export default function(THREE) {
         
         spherical.theta += sphericalDelta.theta;
         spherical.phi += sphericalDelta.phi;
-        
+  
+        if (spherical.theta < -2.05) {
+          spherical.theta = -2.05
+        } else if (spherical.theta > .45) {
+          spherical.theta = .45
+        }
+        console.log(spherical.theta)
+  
         // restrict theta to be between desired limits
         spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
         
@@ -584,7 +591,7 @@ export default function(THREE) {
     
     function handleTouchMoveRotate( event ) {
       
-      //console.log( 'handleTouchMoveRotate' );
+      console.log( 'handleTouchMoveRotate' );
       
       rotateEnd.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY );
       rotateDelta.subVectors( rotateEnd, rotateStart );
@@ -595,7 +602,8 @@ export default function(THREE) {
       rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
       
       // rotating up and down along whole screen attempts to go 360, but limited to 180
-      rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * scope.rotateSpeed );
+      /* Todo Baned UpToDown Rotate */
+      // rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * scope.rotateSpeed );
       
       rotateStart.copy( rotateEnd );
       
