@@ -7,7 +7,12 @@ import {
 } from 'react-router-dom'
 
 import styles from './App.scss'
+
 import imgTest from 'assets/test.jpg'
+import imgTest2 from 'assets/test2.png'
+import imgTest3 from 'assets/test3.png'
+import imgTest4 from 'assets/test4.png'
+
 import OribitControlsWrapper from 'scripts/OrbitControls'
 const OribitControls = OribitControlsWrapper(three)
 
@@ -20,9 +25,29 @@ class App extends React.Component {
   
   threeInit = () => {
     let scene = new three.Scene()
-    let camera = new three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, .1, 1000)
+    let texture = new three.CubeTextureLoader()
+      .load([
+        imgTest,
+        imgTest,
+        imgTest,
+        imgTest,
+        imgTest,
+      ])
+    texture.mapping = THREE.CubeRefractionMapping
+    scene.background = texture
+  
+    let camera = new three.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 100000)
     
-    let renderer = new three.WebGLRenderer()
+    camera.position.z = 3200
+    
+    let ambient = new three.AmbientLight(0xffffff)
+    scene.add(ambient)
+    let pointLight = new three.PointLight(0xffffff, 2)
+    scene.add(pointLight)
+    
+    let renderer = new three.WebGLRenderer({
+      alpha: true
+    })
     renderer.setSize(window.innerWidth, window.innerHeight)
     this.wrapper.appendChild(renderer.domElement)
     let controls = new OribitControls(camera, renderer.domElement)
@@ -37,8 +62,8 @@ class App extends React.Component {
   threeRender = () => {
     requestAnimationFrame(this.threeRender)
     this.state.renderer.render(this.state.scene, this.state.camera)
-    
-    // this.threeRotateCube()
+  
+    this.threeRotateCube()
   }
   
   threeAddItem = (item, name) => {
@@ -52,21 +77,16 @@ class App extends React.Component {
   }
   
   threeCreateEle = () => {
-    let loader = new three.TextureLoader()
-    let textureCube = loader.load(imgTest)
-    
     let geometry = new three.BoxGeometry(10, 10, 10)
-    let material = new three.MeshBasicMaterial({
-      color: 0xffffff,
-      map: textureCube
-    })
+    let material = new three.MeshNormalMaterial()
     
-    geometry.applyMatrix(new three.Matrix4().makeScale(-1, 1, 1))
+    
+    // geometry.applyMatrix(new three.Matrix4().makeScale(-1, 1, 1))
     
     let cube = new three.Mesh(geometry, material)
     
     this.threeAddItem(cube, 'cube')
-    // this.state.camera.position.set(0, 0, 100)
+    this.state.camera.position.set(0, 0, 15)
     // this.state.camera.lookAt(new three.Vector3(0, 0, 0))
     //
     // let material = new three.LineBasicMaterial({
