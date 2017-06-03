@@ -8,16 +8,16 @@ import {
 
 import styles from './App.scss'
 
-import imgTest from 'assets/test.jpg'
-import imgTest2 from 'assets/test2.png'
-import imgTest3 from 'assets/test3.png'
-import imgTest4 from 'assets/test4.png'
 import px from 'assets/px.jpg'
 import nx from 'assets/nx.jpg'
 import py from 'assets/py.jpg'
 import ny from 'assets/ny.jpg'
 import pz from 'assets/pz.jpg'
 import nz from 'assets/nz.jpg'
+import origin from 'assets/origin.jpg'
+import t1 from 'assets/t1.png'
+import t2 from 'assets/t2.png'
+import t3 from 'assets/t3.png'
 
 import OribitControlsWrapper from 'scripts/OrbitControls'
 const OribitControls = OribitControlsWrapper(three)
@@ -33,24 +33,14 @@ class App extends React.Component {
     let scene = new three.Scene()
     let texture = new three.CubeTextureLoader()
       .load([
-        px,
-        px,
-        px,
-        px,
-        px,
-        px
-        // nx,
-        // py,
-        // ny,
-        // pz,
-        // nz
+        t2,t2,
+        t3,t2,
+        t1,t1
       ])
-    texture.mapping = THREE.CubeRefractionMapping
+    // texture.mapping = THREE.CubeRefractionMapping
     scene.background = texture
   
     let camera = new three.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 100000)
-    
-    camera.position.z = 3200
     
     let ambient = new three.AmbientLight(0xffffff)
     scene.add(ambient)
@@ -89,7 +79,7 @@ class App extends React.Component {
   }
   
   threeCreateEle = () => {
-    let geometry = new three.BoxGeometry(10, 10, 10)
+    let geometry = new three.BoxGeometry(1, 1, 1)
     let material = new three.MeshNormalMaterial()
     
     
@@ -98,21 +88,7 @@ class App extends React.Component {
     let cube = new three.Mesh(geometry, material)
     
     this.threeAddItem(cube, 'cube')
-    this.state.camera.position.set(0, 0, 15)
-    // this.state.camera.lookAt(new three.Vector3(0, 0, 0))
-    //
-    // let material = new three.LineBasicMaterial({
-    //   color: 0x0000ff
-    // })
-    // let geometry = new three.Geometry()
-    //
-    // geometry.vertices.push(new three.Vector3(-10, 0, 0))
-    // geometry.vertices.push(new three.Vector3(0, 10, 0))
-    // geometry.vertices.push(new three.Vector3(10, 0, 0))
-    //
-    // let line = new three.Line(geometry, material)
-    //
-    // this.threeAddItem(line, 'line')
+    this.state.camera.position.set(0, 0, 1)
   }
   
   threeRotateCube = () => {
