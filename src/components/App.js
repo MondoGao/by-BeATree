@@ -1,5 +1,4 @@
 import React from 'react'
-import * as three from 'three'
 
 import {
   Route,
@@ -8,6 +7,9 @@ import {
 } from 'react-router-dom'
 
 import styles from './App.scss'
+import imgTest from 'assets/test.jpg'
+import OribitControlsWrapper from 'scripts/OrbitControls'
+const OribitControls = OribitControlsWrapper(three)
 
 class App extends React.Component {
   state = {
@@ -23,7 +25,8 @@ class App extends React.Component {
     let renderer = new three.WebGLRenderer()
     renderer.setSize(window.innerWidth, window.innerHeight)
     this.wrapper.appendChild(renderer.domElement)
-    
+    let controls = new OribitControls(camera, renderer.domElement)
+  
     this.setState({
       scene,
       camera,
@@ -49,35 +52,41 @@ class App extends React.Component {
   }
   
   threeCreateEle = () => {
-    // let geometry = new three.BoxGeometry(1,1,1)
-    // let material = new three.MeshBasicMaterial({
-    //   color: 0x00ff00
-    // })
-    // let cube = new three.Mesh(geometry, material)
-    //
-    // this.state.camera.position.z = 5
-    //
-    // this.threeAddItem(cube, 'cube')
-    this.state.camera.position.set(0, 0, 100)
-    this.state.camera.lookAt(new three.Vector3(0, 0, 0))
+    let loader = new three.TextureLoader()
+    let textureCube = loader.load(imgTest)
     
-    let material = new three.LineBasicMaterial({
-      color: 0x0000ff
+    let geometry = new three.BoxGeometry(10, 10, 10)
+    let material = new three.MeshBasicMaterial({
+      color: 0xffffff,
+      map: textureCube
     })
-    let geometry = new three.Geometry()
     
-    geometry.vertices.push(new three.Vector3(-10, 0, 0))
-    geometry.vertices.push(new three.Vector3(0, 10, 0))
-    geometry.vertices.push(new three.Vector3(10, 0, 0))
+    geometry.applyMatrix(new three.Matrix4().makeScale(-1, 1, 1))
     
-    let line = new three.Line(geometry, material)
+    let cube = new three.Mesh(geometry, material)
     
-    this.threeAddItem(line, 'line')
+    this.threeAddItem(cube, 'cube')
+    // this.state.camera.position.set(0, 0, 100)
+    // this.state.camera.lookAt(new three.Vector3(0, 0, 0))
+    //
+    // let material = new three.LineBasicMaterial({
+    //   color: 0x0000ff
+    // })
+    // let geometry = new three.Geometry()
+    //
+    // geometry.vertices.push(new three.Vector3(-10, 0, 0))
+    // geometry.vertices.push(new three.Vector3(0, 10, 0))
+    // geometry.vertices.push(new three.Vector3(10, 0, 0))
+    //
+    // let line = new three.Line(geometry, material)
+    //
+    // this.threeAddItem(line, 'line')
   }
   
   threeRotateCube = () => {
     if (this.items && this.items.cube) {
-      this.items.cube.rotation.x += .1
+      this.items.cube.rotation.y += .02
+      // this.items.cube.rotation.y += .05
     }
   }
   

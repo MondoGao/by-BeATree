@@ -42,6 +42,7 @@ module.exports = {
       'actions': resolve(__dirname, '../src/actions'),
       'reducers': resolve(__dirname, '../src/reducers/'),
       'styles': resolve(__dirname, '../src/styles'),
+      'scripts': resolve(__dirname, '../src/scripts'),
       'sources': resolve(__dirname, '../src/sources')
     }
   },
@@ -51,6 +52,10 @@ module.exports = {
     }),
     new Webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
+    }),
+    new Webpack.ProvidePlugin({
+      three: 'three',
+      THREE: 'three'
     })
   ]
 }

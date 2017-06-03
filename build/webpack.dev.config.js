@@ -51,6 +51,7 @@ module.exports = WebpackMerge(baseConfig, {
     host: '0.0.0.0',
     compress: true,
     historyApiFallback: true,
-    proxy: settings.proxy
+    // proxy: settings.proxy,
+    disableHostCheck: true
   }
 })
