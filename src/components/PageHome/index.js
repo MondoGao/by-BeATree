@@ -15,7 +15,7 @@ class PageHome extends React.Component {
     
     setTimeout(() => {
       this.props.history.push('/scene')
-    }, 1000)
+    }, 2000)
   }
   
   render() {
@@ -32,7 +32,7 @@ class PageHome extends React.Component {
             className={styles['btn-start']}
             onClick={this.handleStartClick}>be a tree</span>
         </div>
-        <div className={styles['dark-side']}/>
+        {/*<div className={styles['dark-side']}/>*/}
       </div>
     )
   }

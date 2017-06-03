@@ -2,6 +2,7 @@
 
 $bgColor: #ffedf4;
 $fontColor: #ec96b7;
+$transitionTime: 2s;
 
 @keyframes float {
   from {
@@ -41,7 +42,7 @@ $fontColor: #ec96b7;
 
 .wrapper {
   transform: translateY(0) translateZ(0);
-  transition: transform 1s, opacity 1s;
+  transition: transform $transitionTime, opacity $transitionTime .4s;
 }
 
 .dark-side {
