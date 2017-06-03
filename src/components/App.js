@@ -12,6 +12,12 @@ import imgTest from 'assets/test.jpg'
 import imgTest2 from 'assets/test2.png'
 import imgTest3 from 'assets/test3.png'
 import imgTest4 from 'assets/test4.png'
+import px from 'assets/px.jpg'
+import nx from 'assets/nx.jpg'
+import py from 'assets/py.jpg'
+import ny from 'assets/ny.jpg'
+import pz from 'assets/pz.jpg'
+import nz from 'assets/nz.jpg'
 
 import OribitControlsWrapper from 'scripts/OrbitControls'
 const OribitControls = OribitControlsWrapper(three)
@@ -27,11 +33,17 @@ class App extends React.Component {
     let scene = new three.Scene()
     let texture = new three.CubeTextureLoader()
       .load([
-        imgTest,
-        imgTest,
-        imgTest,
-        imgTest,
-        imgTest,
+        px,
+        px,
+        px,
+        px,
+        px,
+        px
+        // nx,
+        // py,
+        // ny,
+        // pz,
+        // nz
       ])
     texture.mapping = THREE.CubeRefractionMapping
     scene.background = texture
