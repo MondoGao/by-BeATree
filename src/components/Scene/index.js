@@ -66,30 +66,20 @@ class Scene extends React.Component {
   
   threeCreateEle = () => {
     let loader = new three.TextureLoader()
-  
-    let geometry = new three.BoxGeometry(1, 1, 1)
-    let material = new three.MeshNormalMaterial()
-    // geometry.applyMatrix(new three.Matrix4().makeScale(-1, 1, 1))
-    let cube = new three.Mesh(geometry, material)
-    this.threeAddItem(cube, 'cube')
     
-    let grassGeo = new three.PlaneGeometry(220, 15)
+    let grassGeo = new three.CylinderGeometry(5, 5, 2, 30)
     
     loader.load(imgLeaves, texture => {
       let grassMat = new three.MeshBasicMaterial({
         map: texture,
-        transparent: true
+        transparent: true,
+        side: three.BackSide
       })
       let grass = new three.Mesh(grassGeo, grassMat)
-      grass.position.set(0, 80, -100)
-  
-      let grass2 = grass.clone()
-      grass2.rotateY(-90)
-      grass2.position.set(70, 80, -20)
-      // grass2.position.set(-100, 80, 0)
-  
+      grass.position.set(0, 7.8, 0)
+      grass.rotateX(0.05)
+      
       this.threeAddItem(grass, 'grass')
-      this.threeAddItem(grass2, 'grass2')
     })
     
     this.state.camera.position.set(0, 0, 10)
