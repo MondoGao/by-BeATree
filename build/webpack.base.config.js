@@ -14,7 +14,7 @@ module.exports = {
   },
   output: {
     filename: 'scripts/[name].[hash].js',
-    path: resolve(__dirname, '../../FileUpload/wwwroot'),
+    path: resolve(__dirname, '../dist'),
     publicPath: '/'
   },
   module: {
