@@ -7,6 +7,7 @@ import imgNz from 'assets/scene-1-nz.png'
 import imgPz from 'assets/scene-1-pz.png'
 import imgOt from 'assets/scene-1-ot.png'
 import imgLeaves from 'assets/scene-1-leaves.png'
+import imgTip from 'assets/scene-1-tip.png'
 
 import OribitControlsWrapper from 'scripts/OrbitControls'
 import DeviceOrientationControlsWrapper from 'scripts/DeviceOrientationControls'
@@ -29,6 +30,8 @@ class Scene extends React.Component {
         imgPz, imgNz
       ])
     scene.background = texture
+  
+    scene.fog = new three.FogExp2(0xaabbbb, 0.0001)
     
     let camera = new three.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 100000)
     
@@ -43,7 +46,7 @@ class Scene extends React.Component {
     
     let controls = [
       new OribitControls(camera, renderer.domElement),
-      // new DeviceOrientationControls(camera)
+      new DeviceOrientationControls(camera)
     ]
     controls[0].maxPolarAngle = 90 / 180 * Math.PI
     controls[0].minPolarAngle = 90 / 180 * Math.PI
@@ -68,7 +71,7 @@ class Scene extends React.Component {
     requestAnimationFrame(this.threeRender)
     this.state.renderer.render(this.state.scene, this.state.camera)
     
-    this.threeRotateCube()
+    this.threeMoveTip()
   }
   
   threeAddItem = (item, name) => {
@@ -84,8 +87,8 @@ class Scene extends React.Component {
   threeCreateEle = () => {
     let loader = new three.TextureLoader()
     
+    // Leaves
     let grassGeo = new three.CylinderGeometry(5, 5, 2, 30)
-    
     loader.load(imgLeaves, texture => {
       let grassMat = new three.MeshBasicMaterial({
         map: texture,
@@ -99,15 +102,31 @@ class Scene extends React.Component {
       this.threeAddItem(grass, 'grass')
     })
     
+    // Tip
+    let tipGeo = new three.PlaneGeometry(10, 10)
+    loader.load(imgTip, texture => {
+      let mat = new three.MeshBasicMaterial({
+        map: texture,
+        transparent: true
+      })
+      let tip = new three.Mesh(tipGeo, mat)
+      tip.position.set(0, 0, -10)
+      
+      this.threeAddItem(tip, 'tip')
+    })
+    
     this.state.camera.position.set(0, 0, 10)
   }
   
-  threeRotateCube = () => {
-    if (this.items && this.items.cube) {
-      this.items.cube.rotation.y += .02
+  threeMoveTip = () => {
+    if (this.items && this.items.tip) {
+      let timer = Date.now() * .001
+      
+      this.items.tip.position.y = .5 * Math.cos(timer)
       // this.items.cube.rotation.y += .05
     }
   }
+  
   
   componentDidUpdate(prevProps, prevState) {
     if (!prevState.scene && this.state.scene) {
