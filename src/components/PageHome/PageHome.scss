@@ -78,3 +78,25 @@ $transitionTime: 2s;
   font-size: pxToRem(70);
   color: $fontColor;
 }
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.text {
+  position: absolute;
+  top: pxToRem(300);
+  width: 100%;
+  text-align: center;
+  font-size: pxToRem(54);
+  line-height: 1.8;
+  color: $fontColor;
+  > p {
+    animation: fade 2s;
+  }
+}
