@@ -135,7 +135,28 @@ class Scene extends React.Component {
       this.threeAddItem(sea, 'sea')
     })
     
-    
+    // Ornaments
+    let duckGeo = new three.PlaneGeometry(5, 5)
+    loader.load(imgDuck, texture => {
+      let mat = new three.MeshBasicMaterial({
+        map: texture,
+        transparent: true
+      })
+      let item = new three.Mesh(duckGeo, mat)
+      item.position.set(0, -8, -18)
+      
+      let duck1 = item.clone()
+      duck1.position.set(16, -8, 0)
+      duck1.rotateY(-Math.PI / 2)
+      this.threeAddItem(duck1, 'duck1')
+      
+      let duck2 = item.clone()
+      duck2.position.set(16, -8, -16)
+      duck2.rotateY(-Math.PI / 4)
+      this.threeAddItem(duck2, 'duck2')
+      
+      this.threeAddItem(item, 'duck')
+    })
     
     this.state.camera.position.set(0, 0, 10)
   }
@@ -145,7 +166,6 @@ class Scene extends React.Component {
       let timer = Date.now() * .001
       
       this.items.tip.position.y = .5 * Math.cos(timer)
-      // this.items.cube.rotation.y += .05
       
       let seaGeo = this.seaGeo
       
@@ -154,6 +174,10 @@ class Scene extends React.Component {
       }
       
       this.items.sea.geometry.verticesNeedUpdate = true
+  
+      this.items.duck.translateX(.005)
+      this.items.duck1.translateX(.005)
+      this.items.duck2.translateX(.005)
     }
   }
   
