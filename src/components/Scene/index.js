@@ -4,11 +4,14 @@ import styles from './Scene.scss'
 
 import imgNx from 'assets/scene-1-nx.png'
 import imgNz from 'assets/scene-1-nz.png'
+import imgPz from 'assets/scene-1-pz.png'
 import imgOt from 'assets/scene-1-ot.png'
 import imgLeaves from 'assets/scene-1-leaves.png'
 
 import OribitControlsWrapper from 'scripts/OrbitControls'
+import DeviceOrientationControlsWrapper from 'scripts/DeviceOrientationControls'
 const OribitControls = OribitControlsWrapper(three)
+const DeviceOrientationControls = DeviceOrientationControlsWrapper(three)
 
 class Scene extends React.Component {
   state = {
@@ -23,7 +26,7 @@ class Scene extends React.Component {
       .load([
         imgOt, imgNx,
         imgOt, imgOt,
-        imgOt, imgNz
+        imgPz, imgNz
       ])
     scene.background = texture
     
@@ -38,8 +41,22 @@ class Scene extends React.Component {
     renderer.setSize(window.innerWidth, window.innerHeight)
     this.wrapper.appendChild(renderer.domElement)
     
-    let controls = new OribitControls(camera, renderer.domElement)
-    
+    let controls = [
+      new OribitControls(camera, renderer.domElement),
+      // new DeviceOrientationControls(camera)
+    ]
+    controls[0].maxPolarAngle = 90 / 180 * Math.PI
+    controls[0].minPolarAngle = 90 / 180 * Math.PI
+    controls[0].minAzimuthAngle = -120 / 180 * Math.PI
+    controls[0].maxAzimuthAngle = 20 / 180 * Math.PI
+  
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight
+      camera.updateProjectionMatrix()
+      renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+    window.addEventListener( 'resize', onWindowResize, false )
+  
     this.setState({
       scene,
       camera,
