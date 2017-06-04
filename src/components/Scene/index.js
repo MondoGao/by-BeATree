@@ -8,6 +8,9 @@ import imgPz from 'assets/scene-1-pz.png'
 import imgOt from 'assets/scene-1-ot.png'
 import imgLeaves from 'assets/scene-1-leaves.png'
 import imgTip from 'assets/scene-1-tip.png'
+import imgSea from 'assets/scene-1-sea.jpg'
+import imgDuck from 'assets/scene-1-duck.png'
+import imgShip from 'assets/scene-1-ship.png'
 
 import OribitControlsWrapper from 'scripts/OrbitControls'
 import DeviceOrientationControlsWrapper from 'scripts/DeviceOrientationControls'
@@ -115,6 +118,25 @@ class Scene extends React.Component {
       this.threeAddItem(tip, 'tip')
     })
     
+    // Sea
+    let seaGeo = new three.PlaneGeometry(120,120,127,127)
+    seaGeo.rotateX( - Math.PI / 2 )
+    loader.load(imgSea, texture => {
+      texture.wrapS = texture.wrapT = three.RepeatWrapping
+      
+      let mat = new three.MeshBasicMaterial({
+        map: texture,
+        transparent: true
+      })
+      let sea = new three.Mesh(seaGeo, mat)
+      sea.position.set(0, -18, 0)
+  
+      this.seaGeo = seaGeo
+      this.threeAddItem(sea, 'sea')
+    })
+    
+    
+    
     this.state.camera.position.set(0, 0, 10)
   }
   
@@ -124,6 +146,14 @@ class Scene extends React.Component {
       
       this.items.tip.position.y = .5 * Math.cos(timer)
       // this.items.cube.rotation.y += .05
+      
+      let seaGeo = this.seaGeo
+      
+      for ( let i = 0, l = seaGeo.vertices.length; i < l; i ++ ) {
+        seaGeo.vertices[ i ].y = 1.2 * Math.sin( i / 5 + ( Date.now() * 0.01 + i ) / 7 )
+      }
+      
+      this.items.sea.geometry.verticesNeedUpdate = true
     }
   }
   
